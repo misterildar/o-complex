@@ -1,15 +1,46 @@
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: space-between;
   padding: 10px;
   border-radius: 15px;
   background-color: #d9d9d9;
-  color: black;
+  color: #000;
   gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .image {
   border-radius: 15px;
+}
+
+
+
+@mixin baseTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  @include baseTitle;
+}
+
+.description {
+  @include baseTitle;
+  -webkit-line-clamp: 10;
+  line-clamp: 10;
+}
+
+.price {
+  @include baseTitle;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
 }

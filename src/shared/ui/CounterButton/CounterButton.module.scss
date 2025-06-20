@@ -1,7 +1,6 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-
   gap: 10px;
   width: 100%;
 }
@@ -15,11 +14,7 @@
   padding: 10px;
   border-radius: 15px;
   width: 100%;
-  font-weight: 400;
   font-size: 36px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  font-family: var(--font-inter);
 }
 
 .count {

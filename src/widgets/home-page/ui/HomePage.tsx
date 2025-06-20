@@ -1,48 +1,23 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import styles from "./HomePage.module.scss";
-import { getReviews, getProducts } from "@/shared/api/api";
-import { ReviewCard } from "@/entities/review-card";
-import { ProductCard } from "@/entities/product-card";
-import { Basket } from "@/entities/basket";
+import { useEffect } from 'react';
 
-interface Review {
-  id: number;
-  text: string;
-}
+import { Basket } from '@/entities/basket';
+import { ReviewCard } from '@/entities/review-card';
+import { ProductCard } from '@/entities/product-card';
+import { fetchReviews, useReviewStore } from '@/entities/review-card/';
+import { fetchProductCart, useProductCartStore } from '@/entities/product-card';
 
-interface Product {
-  id: number;
-  image_url: string;
-  price: number;
-  title: string;
-  description: string;
-}
+import styles from './HomePage.module.scss';
 
 export const HomePage = () => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const products = useProductCartStore((state) => state.products);
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const reviews = useReviewStore((state) => state.reviews);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const reviews = await getReviews();
-      if (reviews) {
-        setReviews(reviews);
-      }
-    };
     fetchReviews();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const products = await getProducts();
-      if (products) {
-        setProducts(products.items);
-      }
-    };
-    fetchProducts();
+    fetchProductCart();
   }, []);
 
   return (
@@ -50,22 +25,25 @@ export const HomePage = () => {
       <div className={styles.title}>
         <h1 className={styles.h1}>тестовое задание</h1>
       </div>
-      <div className={styles.reviews}>
-        {reviews.map((review) => (
-          <ReviewCard key={review.id} text={review.text} />
-        ))}
-      </div>
-      <Basket productName="Товар11" price={80} quantity={3} />
-      <div className={styles.products}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            imageUrl={product.image_url}
-            title={product.title}
-            price={product.price}
-            description={product.description}
-          />
-        ))}
+      <div className={styles.wrapper}>
+        <div className={styles.reviews}>
+          {reviews.map((review) => (
+            <ReviewCard key={review.id} text={review.text} />
+          ))}
+        </div>
+        <Basket />
+        <div className={styles.products}>
+          {products.map((product) => (
+            <ProductCard
+              id={product.id}
+              key={product.id}
+              image_url={product.image_url}
+              title={product.title}
+              price={product.price}
+              description={product.description}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

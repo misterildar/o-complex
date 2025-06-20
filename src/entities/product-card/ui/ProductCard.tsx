@@ -1,29 +1,31 @@
-import { useState } from "react";
-import Image from "next/image";
-import styles from "./ProductCard.module.scss";
-import { Button, CounterButton } from "@/shared/ui";
+import Image from 'next/image';
+import { useState } from 'react';
 
-interface ProductProps {
-  imageUrl: string;
-  title: string;
-  price: number;
-  description: string;
-}
+import { Product } from '@/entities/product-card';
+import { useOrderStore } from '@/entities/basket';
+import { Button, CounterButton } from '@/shared/ui';
 
-const PLACEHOLDER_IMAGE = "/placeholder.png";
+import styles from './ProductCard.module.scss';
+
+const PLACEHOLDER_IMAGE = '/placeholder.png';
 
 export const ProductCard = ({
-  imageUrl,
+  id,
   title,
   price,
+  image_url,
   description,
-}: ProductProps) => {
-  const [src, setSrc] = useState(imageUrl);
+}: Product) => {
+  const [src, setSrc] = useState(image_url);
 
-  const [isCounter, setIsCounter] = useState(false);
+  const { setCart } = useOrderStore.getState();
 
-  const handleClick = () => {
-    setIsCounter((prev) => !prev);
+  const cart = useOrderStore((state) => state.cart);
+
+  const isInCart = cart.some((item) => item.id === id);
+
+  const handleAddToCart = () => {
+    setCart({ title, id, quantity: 1, price });
   };
 
   return (
@@ -37,13 +39,13 @@ export const ProductCard = ({
         className={styles.image}
         unoptimized
       />
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>Цена: {price} ₽</p>
-      {isCounter ? (
-        <CounterButton onClick={handleClick} />
+      <h2 className={styles.title}>{title}</h2>
+      <p className={styles.description}>{description}</p>
+      <p className={styles.price}>Цена: {price} ₽</p>
+      {isInCart ? (
+        <CounterButton id={id} title={title} price={price} />
       ) : (
-        <Button text="Купить" onClick={handleClick} />
+        <Button text='Купить' onClick={handleAddToCart} />
       )}
     </div>
   );

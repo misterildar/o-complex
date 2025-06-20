@@ -1,5 +1,5 @@
-import { ChangeEvent, forwardRef, InputHTMLAttributes } from "react";
-import styles from "./Input.module.scss";
+import { ChangeEvent, forwardRef, InputHTMLAttributes } from 'react';
+import styles from './Input.module.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string;
@@ -13,9 +13,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       {...props}
       ref={ref}
       className={styles.input}
-      type="tel"
+      type='tel'
     />
   );
 });
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
