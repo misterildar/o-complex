@@ -1,12 +1,8 @@
-import { api } from '@/shared/api';
+import { httpClient } from '@/shared';
 import { ProductsResponse } from './types';
 
-export const getProducts = async (
-  page: number = 1,
-  page_size: number = 20
-): Promise<ProductsResponse> => {
-  const response = await api.get<ProductsResponse>('/products', {
+export const getProducts = (page: number = 1, page_size: number = 20) => {
+  return httpClient<ProductsResponse>('get', '/products', {
     params: { page, page_size },
   });
-  return response.data;
 };

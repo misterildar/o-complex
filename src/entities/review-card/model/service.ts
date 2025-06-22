@@ -1,9 +1,6 @@
 import { getReviews } from './api';
-import { useReviewStore } from './store';
+import { Review } from './types';
 
-const { setReviews } = useReviewStore.getState();
-
-export const fetchReviews = async () => {
-  const reviews = await getReviews();
-  setReviews(reviews);
+export const fetchReviews = async (): Promise<Review[]> => {
+  return await getReviews();
 };

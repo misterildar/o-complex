@@ -1,9 +1,6 @@
 import { getProducts } from './api';
-import { useProductCartStore } from './store';
+import { ProductsResponse } from './types';
 
-const { setProducts } = useProductCartStore.getState();
-
-export const fetchProductCart = async () => {
-  const productsCart = await getProducts();
-  setProducts(productsCart);
+export const fetchProductCart = async (): Promise<ProductsResponse> => {
+  return await getProducts();
 };

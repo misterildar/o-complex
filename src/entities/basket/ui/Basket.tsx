@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { createOrder } from '@/shared/api/api';
+import { createOrder } from '../model/api';
 import { useOrderStore } from '@/entities/basket';
 import { Button, Input, Modal } from '@/shared/ui';
-
 import { FormValues, CartIdQuantity } from '../model/types';
 
 import styles from './Basket.module.scss';
@@ -20,40 +19,47 @@ export const Basket = () => {
     defaultValues: { phone: '' },
   });
 
-  const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
 
   const basketStore = useOrderStore((store) => store.cart);
+
+  const isFormDisabled = status === 'loading' || basketStore.length === 0;
 
   const { clearCart } = useOrderStore.getState();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if (status === 'loading') return;
+
+    setStatus('loading');
     const cleanedPhone = data.phone.replace(/\D/g, '');
 
     try {
       const orderData = {
         phone: cleanedPhone,
         cart: basketStore.map(({ id, quantity }: CartIdQuantity) => ({
-          id: id,
-          quantity: quantity,
+          id,
+          quantity,
         })),
       };
 
       const response = await createOrder(orderData);
 
       if (response.success === 1) {
-        setShowModal(true);
+        setStatus('success');
+        clearCart();
         reset(
           { phone: '' },
           { keepErrors: false, keepDirty: false, keepTouched: false }
         );
       } else {
-        alert(
-          'Ошибка при создании заказа: ' +
-            (response.error || 'Неизвестная ошибка')
-        );
+        setStatus('error');
+        console.error(response.error || 'Unknown API error');
       }
     } catch (error) {
-      alert('Ошибка сети или сервера: ' + error);
+      setStatus('error');
+      console.error(error);
     }
   };
 
@@ -82,13 +88,23 @@ export const Basket = () => {
             },
           })}
           placeholder='7 (___) ___ __-__'
+          disabled={status === 'loading'}
         />
         {errors.phone && <p className={styles.error}>{errors.phone.message}</p>}
 
-        <Button text='Заказать' disabled={!isValid} type='submit' />
+        <Button
+          text='Заказать'
+          disabled={!isValid || status === 'loading' || isFormDisabled}
+          type='submit'
+          loading={status === 'loading'}
+        />
       </div>
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <h2>Вы успешно оформили заказ!</h2>
+      <Modal
+        isOpen={status === 'success' || status === 'error'}
+        onClose={() => setStatus('idle')}
+      >
+        {status === 'success' && <h2>Вы успешно оформили заказ!</h2>}
+        {status === 'error' && <h2>Ошибка сети или сервера</h2>}
       </Modal>
     </form>
   );

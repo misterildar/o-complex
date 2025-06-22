@@ -13,3 +13,19 @@
   letter-spacing: 0%;
   font-family: var(--font-inter);
 }
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(240, 240, 240, 0.3);
+  border-top-color: #f0f0f0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

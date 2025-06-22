@@ -1,7 +1,6 @@
-import { api } from '@/shared/api';
+import { httpClient } from '@/shared';
 import { Review } from './types';
 
 export const getReviews = async (): Promise<Review[]> => {
-  const response = await api.get<Review[]>('/reviews');
-  return response.data;
+  return httpClient<Review[]>('get', '/reviews');
 };

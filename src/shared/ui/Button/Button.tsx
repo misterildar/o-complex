@@ -7,12 +7,14 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'reset' | 'submit';
   className?: string;
+  loading?: boolean;
 }
 
 export const Button = ({
   text,
   onClick,
   disabled,
+  loading,
   className,
   type = 'button',
 }: ButtonProps) => {
@@ -23,7 +25,11 @@ export const Button = ({
       disabled={disabled}
       className={clsx(className, styles.button)}
     >
-      <p className={styles.text}>{text}</p>
+      {loading ? (
+        <div className={styles.spinner} aria-label='loading' />
+      ) : (
+        <p>{text}</p>
+      )}
     </button>
   );
 };
