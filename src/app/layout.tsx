@@ -1,32 +1,36 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import './globals.css';
+import '@/shared/styles/globals.scss';
 
 const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  weight: ['400'],
+	variable: '--font-inter',
+	subsets: ['latin'],
+	weight: ['400'],
 });
 
 export const metadata: Metadata = {
-  title: '0-complex',
-  description: '0-complex',
+	title: 'Ildar',
+	description: 'Ildar',
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang='en'>
-      <head>
-        <link rel='icon' type='image/x-icon' href='/favicon.ico' />
-      </head>
-      <body className={inter.variable}>
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+	return (
+		<html lang='en'>
+			<head>
+				<link
+					rel='icon'
+					type='image/x-icon'
+					href='/favicon.ico'
+				/>
+			</head>
+			<body className={inter.variable}>
+				<main>{children}</main>
+			</body>
+		</html>
+	);
 }

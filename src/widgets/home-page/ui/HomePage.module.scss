@@ -1,54 +1,40 @@
 .section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 100px;
 }
 
 .title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-radius: 15px;
-  padding: 20px;
-  background-color: #777;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	border-radius: 15px;
+	padding: 20px;
+	background-color: #777;
 }
 
 .h1 {
-  font-weight: 400;
-  font-size: 96px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  font-family: var(--font-inter);
-  color: #fff;
-}
-
-.wrapper {
-  border: 1px solid #777;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
-  width: 100%;
-  padding: 50px;
+	font-weight: 400;
+	font-size: 96px;
+	line-height: 100%;
+	letter-spacing: 0%;
+	font-family: var(--font-inter);
+	color: #fff;
 }
 
 .reviews {
-  max-width: 1000px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 34px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: auto;
+	gap: 30px;
 }
 
 .products {
-  max-width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto;
-  gap: 34px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: auto;
+	gap: 34px;
 }

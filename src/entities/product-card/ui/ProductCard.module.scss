@@ -1,46 +1,48 @@
+@use '@/styles/variables' as *;
+
 .card {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
-  padding: 10px;
-  border-radius: 15px;
-  background-color: #d9d9d9;
-  color: #000;
-  gap: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: space-between;
+	padding: 10px;
+	border-radius: 15px;
+	background-color: $gray-300;
+	color: $black;
+	gap: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 .image {
-  border-radius: 15px;
+	border-radius: 15px;
+	width: 100%;
+	height: auto;
 }
 
-
-
 @mixin baseTitle {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .title {
-  @include baseTitle;
+	@include baseTitle;
 }
 
 .description {
-  @include baseTitle;
-  -webkit-line-clamp: 10;
-  line-clamp: 10;
+	@include baseTitle;
+	-webkit-line-clamp: 10;
+	line-clamp: 10;
 }
 
 .price {
-  @include baseTitle;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
+	@include baseTitle;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
 }

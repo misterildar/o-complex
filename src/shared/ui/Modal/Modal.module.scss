@@ -1,37 +1,39 @@
-.modal {
-  position: fixed;
-  margin: 0;
-  border: none;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  animation-name: show;
-  animation-timing-function: linear;
-  animation-duration: 250ms;
-  border-radius: 15px;
-  scrollbar-width: none;
-  padding: 100px 50px;
-  max-width: 700px;
+@use '@/styles/variables' as *;
 
-  &::backdrop {
-    background: rgba(0, 0, 0, 0.5);
-  }
+.modal {
+	position: fixed;
+	margin: 0;
+	border: none;
+	inset: 50% auto auto 50%;
+	transform: translate(-50%, -50%);
+	animation-name: show;
+	animation-timing-function: linear;
+	animation-duration: 250ms;
+	border-radius: 15px;
+	scrollbar-width: none;
+	padding: 100px 50px;
+	max-width: 700px;
+
+	&::backdrop {
+		background: $black-50;
+	}
 }
 
 .close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  line-height: 1;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: transparent;
+	border: none;
+	font-size: 28px;
+	cursor: pointer;
+	line-height: 1;
 
-  &:focus {
-    outline: none;
-  }
+	&:focus {
+		outline: none;
+	}
 }
 
 .content {
-  margin-top: 30px;
+	margin-top: 30px;
 }

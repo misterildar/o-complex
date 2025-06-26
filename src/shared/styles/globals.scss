@@ -1,0 +1,75 @@
+@use '@/styles/variables' as *;
+
+:root {
+	--background: #{$gray-900};
+}
+
+@supports (-webkit-overlay-scrollbars: 0) {
+	html:has(dialog[open]) {
+		overflow: hidden;
+	}
+}
+@supports not (-webkit-overlay-scrollbars: 0) {
+	html {
+		scrollbar-gutter: stable;
+	}
+	html:has(dialog[open]) {
+		overflow: hidden;
+	}
+}
+
+html,
+body {
+	max-width: 100vw;
+	overflow-x: hidden;
+}
+
+body {
+	background: var(--background);
+	font-family: var(--font-inter), sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+}
+
+.body-no-scroll {
+	overflow: hidden;
+}
+
+main {
+	max-width: 1442px;
+	margin: 0 auto;
+	padding: 50px 0 150px;
+}
+
+button {
+	cursor: pointer;
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+p {
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 100%;
+	letter-spacing: 0%;
+	font-family: var(--font-inter);
+}
+
+dialog.modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: none;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 0 4px 16px #{$black-25};
+	max-width: 500px;
+	width: 90%;
+}
