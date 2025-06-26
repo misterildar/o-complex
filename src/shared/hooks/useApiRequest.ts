@@ -1,13 +1,18 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 export const useApiRequest = <T, P>(initialData?: T) => {
 	const [data, setData] = useState<T | undefined>(initialData);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const loadingTimer = useRef<NodeJS.Timeout | null>(null);
 
 	const sendRequest = useCallback(async (requestFn: (params?: P) => Promise<T>, params?: P) => {
-		setIsLoading(true);
 		setError(null);
+
+		loadingTimer.current = setTimeout(() => {
+			setIsLoading(true);
+		}, 300);
+
 		try {
 			const result = await requestFn(params);
 			setData(result);
@@ -20,6 +25,9 @@ export const useApiRequest = <T, P>(initialData?: T) => {
 			}
 			return undefined;
 		} finally {
+			if (loadingTimer.current) {
+				clearTimeout(loadingTimer.current);
+			}
 			setIsLoading(false);
 		}
 	}, []);

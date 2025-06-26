@@ -1,15 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { Basket } from '@/entities/basket';
 import { ProductCard } from '@/entities/product-card';
 import { Review } from '@/entities/review-card/model/types';
 import { useApiRequest } from '@/shared/hooks/useApiRequest';
+import { useProductCartStore } from '@/entities/product-card';
 import { useInfiniteScroll } from '@/shared/hooks/useInfiniteScroll';
-import { fetchProductCart, useProductCartStore } from '@/entities/product-card';
+import { useProductPagination } from '@/shared/hooks/useProductPagination';
 import { ReviewCard, fetchReviews, useReviewStore } from '@/entities/review-card/';
-import { ProductRequestParams, ProductsResponse } from '@/entities/product-card/model/types';
 
 import styles from './HomePage.module.scss';
 
@@ -18,10 +18,6 @@ export const HomePage = () => {
 	const setReviews = useReviewStore((state) => state.setReviews);
 
 	const products = useProductCartStore((state) => state.products);
-	const addProducts = useProductCartStore((state) => state.addProducts);
-
-	const [page, setPage] = useState(1);
-	const [hasMore, setHasMore] = useState(true);
 
 	const {
 		error: reviewsError,
@@ -30,10 +26,11 @@ export const HomePage = () => {
 	} = useApiRequest<Review[], void>();
 
 	const {
+		hasMore,
+		loadMore,
 		error: productsError,
 		isLoading: productsLoading,
-		sendRequest: sendProductsRequest,
-	} = useApiRequest<ProductsResponse, ProductRequestParams>();
+	} = useProductPagination();
 
 	useEffect(() => {
 		sendReviewsRequest(fetchReviews).then((data) => {
@@ -41,31 +38,10 @@ export const HomePage = () => {
 		});
 	}, [sendReviewsRequest, setReviews]);
 
-	useEffect(() => {
-		sendProductsRequest(fetchProductCart, { page: 1, page_size: 20 }).then((data) => {
-			if (data?.items) addProducts(data.items);
-		});
-	}, [addProducts, sendProductsRequest]);
-
-	const loadMoreProducts = useCallback(() => {
-		const nextPage = page + 1;
-		sendProductsRequest(fetchProductCart, {
-			page: nextPage,
-			page_size: 20,
-		}).then((data) => {
-			if (data?.items && data.items.length > 0) {
-				addProducts(data.items);
-				setPage(nextPage);
-			} else {
-				setHasMore(false);
-			}
-		});
-	}, [page, sendProductsRequest, addProducts]);
-
 	const { triggerRef } = useInfiniteScroll({
-		onLoadMore: loadMoreProducts,
-		isLoading: productsLoading,
 		hasMore,
+		onLoadMore: loadMore,
+		isLoading: productsLoading,
 		options: { threshold: 0.3 },
 	});
 
